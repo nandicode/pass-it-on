@@ -1,0 +1,225 @@
+// Prisma schema for "Pass It On" — Amity Noida student marketplace.
+// See chats/ + project/Pass It On - Mobile.dc.html in the repo root for design intent.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DisplayMode {
+  FIRST_NAME
+  ANONYMOUS
+}
+
+enum ListingStatus {
+  AVAILABLE
+  RESERVED
+  PASSED
+}
+
+enum Condition {
+  LIKE_NEW
+  GOOD
+  OKAY
+  WORN
+}
+
+enum PriceType {
+  FREE
+  PAID
+}
+
+enum ThreadRefType {
+  LISTING
+  REQUEST
+}
+
+enum NotificationType {
+  MESSAGE
+  LISTING
+  REQUEST
+  SYSTEM
+}
+
+model User {
+  id            String      @id @default(cuid())
+  email         String      @unique
+  passwordHash  String
+  name          String
+  school        String
+  course        String
+  semester      String
+  displayMode   DisplayMode @default(FIRST_NAME)
+  darkMode      Boolean     @default(false)
+  verified      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  subjects      Subject[]
+  listings      Listing[]
+  requests      Request[]
+  savedListings SavedListing[]
+  threadsA      Thread[]       @relation("ThreadUserA")
+  threadsB      Thread[]       @relation("ThreadUserB")
+  messages      Message[]
+  notifications Notification[]
+
+  @@index([email])
+}
+
+model Subject {
+  id     String @id @default(cuid())
+  name   String
+  code   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  key      String    @unique // notes | books | lab | tools | stationery
+  label    String
+  subtext  String
+  iconKey  String
+  listings Listing[]
+  requests Request[]
+}
+
+model Listing {
+  id           String        @id @default(cuid())
+  ownerId      String
+  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category      @relation(fields: [categoryId], references: [id])
+
+  title        String
+  description  String
+  school       String
+  course       String
+  semester     String
+  subjectName  String?
+  subjectCode  String?
+
+  condition    Condition
+  quantity     String?
+  usefulFor    String[]
+
+  priceType    PriceType
+  price        Int           @default(0)
+
+  pickupSpot   String
+  availability String
+
+  status       ListingStatus @default(AVAILABLE)
+  interested   Int           @default(0)
+
+  photos       ListingPhoto[]
+  savedBy      SavedListing[]
+  threads      Thread[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([categoryId])
+  @@index([ownerId])
+  @@index([status])
+  @@index([school, course, semester])
+}
+
+model ListingPhoto {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url       String
+  position  Int     @default(0)
+}
+
+model Request {
+  id           String   @id @default(cuid())
+  requesterId  String
+  requester    User     @relation(fields: [requesterId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+
+  title        String
+  school       String
+  course       String
+  semester     String
+  subjectName  String?
+  subjectCode  String?
+  needBy       String
+  note         String?
+
+  open         Boolean  @default(true)
+  threads      Thread[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([requesterId])
+}
+
+model Thread {
+  id          String        @id @default(cuid())
+  refType     ThreadRefType
+  listingId   String?
+  listing     Listing?      @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  requestId   String?
+  request     Request?      @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  userAId     String
+  userA       User          @relation("ThreadUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userBId     String
+  userB       User          @relation("ThreadUserB", fields: [userBId], references: [id], onDelete: Cascade)
+
+  messages    Message[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([listingId, userAId, userBId])
+  @@unique([requestId, userAId, userBId])
+  @@index([userAId])
+  @@index([userBId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  text      String
+  createdAt DateTime @default(now())
+
+  @@index([threadId])
+}
+
+model SavedListing {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  text      String
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+}

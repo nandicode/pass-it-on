@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --pio-page-bg: #E9E5DC;
+  --pio-surface: #FAF8F4;
+  --pio-white: #FFFFFF;
+  --pio-ink: #1C1C1A;
+  --pio-ink-soft: #4A463D;
+  --pio-muted: #6B6659;
+  --pio-faint: #9A9488;
+  --pio-border: #EDE9DF;
+  --pio-border-strong: #E7E2D6;
+  --pio-input-bg: #F4F1E9;
+  --pio-green: #2F6F5E;
+  --pio-green-tint: #EAF1EC;
+  --pio-green-border: #D8E7DF;
+  --pio-deep: #1E4B3D;
+  --pio-hero-from: #24564A;
+  --pio-hero-to: #1B4234;
+  --pio-hero-sub: #C4D8D0;
+  --pio-orange: #B5542F;
+  --pio-orange-tint: #F0D9CE;
+  --pio-amber: #8A6D1E;
+  --pio-amber-tint: #F7F0DE;
+  --pio-photo-bg: #EFEAE0;
+  --pio-photo-icon: #BEB6A6;
+}
+
+[data-theme="dark"] {
+  --pio-page-bg: #0F0F0C;
+  --pio-surface: #1A1A16;
+  --pio-white: #201F1A;
+  --pio-ink: #F2F0E9;
+  --pio-ink-soft: #D6D2C6;
+  --pio-muted: #A8A296;
+  --pio-faint: #7C7669;
+  --pio-border: #2B2A24;
+  --pio-border-strong: #34332B;
+  --pio-input-bg: #24231D;
+  --pio-green: #4E9481;
+  --pio-green-tint: #1C2B25;
+  --pio-green-border: #2B4038;
+  --pio-deep: #3E7E68;
+  --pio-hero-from: #1C332B;
+  --pio-hero-to: #142722;
+  --pio-hero-sub: #A9C4B9;
+  --pio-orange: #E08159;
+  --pio-orange-tint: #3A241C;
+  --pio-amber: #D8B65A;
+  --pio-amber-tint: #34291A;
+  --pio-photo-bg: #24231D;
+  --pio-photo-icon: #5A564A;
+}
+
+@theme inline {
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+
+  --color-pio-page: var(--pio-page-bg);
+  --color-pio-surface: var(--pio-surface);
+  --color-pio-white: var(--pio-white);
+  --color-pio-ink: var(--pio-ink);
+  --color-pio-ink-soft: var(--pio-ink-soft);
+  --color-pio-muted: var(--pio-muted);
+  --color-pio-faint: var(--pio-faint);
+  --color-pio-border: var(--pio-border);
+  --color-pio-border-strong: var(--pio-border-strong);
+  --color-pio-input: var(--pio-input-bg);
+  --color-pio-green: var(--pio-green);
+  --color-pio-green-tint: var(--pio-green-tint);
+  --color-pio-green-border: var(--pio-green-border);
+  --color-pio-deep: var(--pio-deep);
+  --color-pio-orange: var(--pio-orange);
+  --color-pio-orange-tint: var(--pio-orange-tint);
+  --color-pio-amber: var(--pio-amber);
+  --color-pio-amber-tint: var(--pio-amber-tint);
+  --color-pio-photo-bg: var(--pio-photo-bg);
+  --color-pio-photo-icon: var(--pio-photo-icon);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--pio-page-bg);
+  color: var(--pio-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::placeholder {
+  color: var(--pio-faint);
+}
+
+.pio-scroller::-webkit-scrollbar {
+  display: none;
+}
+.pio-scroller {
+  scrollbar-width: none;
+}
+
+.pio-tap:active {
+  opacity: 0.75;
+}
+.pio-chip:active {
+  filter: brightness(0.96);
+}
+
+@keyframes pioSheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.pio-sheet {
+  animation: pioSheetUp 0.22s ease;
+}
+
+@keyframes pioFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.pio-scrim {
+  animation: pioFadeIn 0.18s ease;
+}
+
+@keyframes pioToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.pio-toast {
+  animation: pioToastIn 0.22s ease;
+}
+
+.pio-bubble-in {
+  background: var(--pio-white);
+  color: var(--pio-ink);
+  box-shadow: 0 1px 2px rgba(28, 28, 26, 0.06);
+}
+.pio-bubble-out {
+  background: var(--pio-green);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(47, 111, 94, 0.18);
+}
