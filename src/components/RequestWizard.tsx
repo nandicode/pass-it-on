@@ -58,7 +58,7 @@ export function RequestWizard({ defaultSchool, defaultCourse, defaultSemester }:
   }
 
   return (
-    <div className="flex flex-col gap-3.5 px-4.5 py-4.5 md:px-8 md:py-6 md:max-w-lg">
+    <div className="flex flex-col gap-3.5 px-4.5 py-4.5 md:px-8 md:py-6 md:max-w-lg md:mx-auto">
       <h2 className="m-0 text-[18px] font-extrabold text-pio-ink">Request material</h2>
       {error && <span className="text-[12px] text-pio-orange">{error}</span>}
       <div className="flex flex-wrap gap-2">

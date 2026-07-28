@@ -32,7 +32,7 @@ export default async function ProfilePage() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 p-4.5 md:p-8 md:max-w-lg">
+    <div className="flex flex-col gap-4 p-4.5 md:p-8 md:max-w-lg md:mx-auto">
       <div className="bg-pio-green-tint rounded-[22px] p-5 flex flex-col gap-4 relative overflow-hidden">
         <div className="flex items-center gap-3.5 relative">
           <div className="w-15 h-15 rounded-full bg-pio-deep text-white flex items-center justify-center text-[23px] font-extrabold shrink-0">

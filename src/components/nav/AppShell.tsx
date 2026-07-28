@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { SearchBar } from "@/components/SearchBar";
 import {
   HomeIcon,
   SearchIcon,
@@ -75,84 +76,87 @@ export function AppShell({
   const backTitle = backTitleFor(pathname);
 
   return (
-    <div className="min-h-screen flex flex-col md:items-center md:py-8">
-      <div className="w-full md:max-w-3xl md:rounded-[28px] md:shadow-xl bg-pio-surface flex flex-col min-h-screen md:min-h-0">
-        <header className="shrink-0 bg-pio-white">
-          {isTopLevel ? (
-            <div className="flex items-center justify-between px-4.5 py-3 md:px-8 md:py-4">
-              <Link href="/" className="cursor-pointer">
-                <Logo />
-              </Link>
-              <nav className="hidden md:flex items-center gap-6 text-[13.5px] font-bold text-pio-ink-soft">
-                {DESKTOP_LINKS.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className={clsx(
-                      "hover:text-pio-green transition-colors",
-                      pathname === l.href && "text-pio-green"
-                    )}
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-              </nav>
-              <div className="flex items-center gap-2.5 shrink-0">
+    <div className="min-h-screen flex flex-col bg-pio-surface">
+      <header className="shrink-0 bg-pio-white sticky top-0 z-30 border-b border-pio-border md:border-b-0 md:shadow-[0_1px_0_var(--pio-border)]">
+        {isTopLevel ? (
+          <div className="flex items-center justify-between px-4.5 py-3 md:px-8 md:py-4 md:max-w-[1200px] md:mx-auto">
+            <Link href="/" className="cursor-pointer shrink-0">
+              <Logo size={20} />
+            </Link>
+            <nav className="hidden md:flex items-center gap-7 text-[14px] font-bold text-pio-ink-soft mx-8">
+              {DESKTOP_LINKS.map((l) => (
                 <Link
-                  href="/notifications"
-                  className="pio-tap relative w-9.5 h-9.5 rounded-full bg-pio-input flex items-center justify-center text-pio-ink-soft"
-                >
-                  <BellIcon size={17} />
-                  {hasUnreadNotif && (
-                    <span className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-pio-orange border-[1.5px] border-pio-input" />
+                  key={l.href}
+                  href={l.href}
+                  className={clsx(
+                    "hover:text-pio-green transition-colors",
+                    pathname === l.href && "text-pio-green"
                   )}
-                </Link>
-                <Link
-                  href="/profile"
-                  className="pio-tap w-9.5 h-9.5 rounded-full bg-pio-deep text-white flex items-center justify-center text-[14.5px] font-extrabold"
                 >
-                  {profileInitial}
+                  {l.label}
                 </Link>
-                <Link href="/list" className="hidden md:inline-flex">
-                  <span className="pio-tap bg-pio-green text-white text-[12.5px] font-bold px-4 py-2.5 rounded-full whitespace-nowrap">
-                    + List material
-                  </span>
-                </Link>
-              </div>
+              ))}
+            </nav>
+            <div className="hidden md:block flex-1 max-w-md">
+              <SearchBar />
             </div>
-          ) : (
-            <div className="flex items-center gap-3 px-4.5 py-4 border-b border-pio-border">
-              <button
-                onClick={() => router.back()}
-                className="pio-tap w-8.5 h-8.5 rounded-full bg-pio-input flex items-center justify-center shrink-0 cursor-pointer"
+            <div className="flex items-center gap-2.5 shrink-0 md:ml-6">
+              <Link
+                href="/notifications"
+                className="pio-tap relative w-9.5 h-9.5 rounded-full bg-pio-input flex items-center justify-center text-pio-ink-soft"
               >
-                <BackIcon size={16} />
-              </button>
-              <span className="text-[16.5px] font-extrabold text-pio-ink flex-1 truncate">{backTitle}</span>
+                <BellIcon size={17} />
+                {hasUnreadNotif && (
+                  <span className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-pio-orange border-[1.5px] border-pio-input" />
+                )}
+              </Link>
+              <Link
+                href="/profile"
+                className="pio-tap w-9.5 h-9.5 rounded-full bg-pio-deep text-white flex items-center justify-center text-[14.5px] font-extrabold"
+              >
+                {profileInitial}
+              </Link>
+              <Link href="/list" className="hidden md:inline-flex">
+                <span className="pio-tap bg-pio-green text-white text-[12.5px] font-bold px-4 py-2.5 rounded-full whitespace-nowrap">
+                  + List material
+                </span>
+              </Link>
             </div>
-          )}
-        </header>
-
-        <main className="flex-1 overflow-y-auto pb-20 md:pb-8">{children}</main>
-
-        <nav className="md:hidden shrink-0 flex items-center justify-around px-2 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] bg-pio-white border-t border-pio-border sticky bottom-0">
-          {TABS.map((t) => (
-            <TabLink key={t.href} {...t} active={pathname === t.href} />
-          ))}
-          <Link href="/list" className="pio-tap flex flex-col items-center gap-1 px-2.5">
-            <span
-              className="w-12 h-12 rounded-2xl bg-pio-deep text-white flex items-center justify-center shrink-0"
-              style={{ boxShadow: "0 6px 16px rgba(30,75,61,0.4)", border: "3px solid var(--pio-white)", marginTop: -16 }}
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 px-4.5 py-4 md:px-8 md:max-w-[1200px] md:mx-auto border-b border-pio-border md:border-b-0">
+            <button
+              onClick={() => router.back()}
+              className="pio-tap w-8.5 h-8.5 rounded-full bg-pio-input flex items-center justify-center shrink-0 cursor-pointer"
             >
-              <PlusIcon size={22} />
-            </span>
-            <span className="text-[10px] font-bold text-pio-deep -mt-0.5">List</span>
-          </Link>
-          {TABS_RIGHT.map((t) => (
-            <TabLink key={t.href} {...t} active={pathname === t.href} />
-          ))}
-        </nav>
-      </div>
+              <BackIcon size={16} />
+            </button>
+            <span className="text-[16.5px] font-extrabold text-pio-ink flex-1 truncate">{backTitle}</span>
+          </div>
+        )}
+      </header>
+
+      <main className="flex-1 pb-20 md:pb-10">
+        <div className="md:max-w-[1200px] md:mx-auto">{children}</div>
+      </main>
+
+      <nav className="md:hidden shrink-0 flex items-center justify-around px-2 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] bg-pio-white border-t border-pio-border fixed bottom-0 left-0 right-0 z-30">
+        {TABS.map((t) => (
+          <TabLink key={t.href} {...t} active={pathname === t.href} />
+        ))}
+        <Link href="/list" className="pio-tap flex flex-col items-center gap-1 px-2.5">
+          <span
+            className="w-12 h-12 rounded-2xl bg-pio-deep text-white flex items-center justify-center shrink-0"
+            style={{ boxShadow: "0 6px 16px rgba(30,75,61,0.4)", border: "3px solid var(--pio-white)", marginTop: -16 }}
+          >
+            <PlusIcon size={22} />
+          </span>
+          <span className="text-[10px] font-bold text-pio-deep -mt-0.5">List</span>
+        </Link>
+        {TABS_RIGHT.map((t) => (
+          <TabLink key={t.href} {...t} active={pathname === t.href} />
+        ))}
+      </nav>
     </div>
   );
 }

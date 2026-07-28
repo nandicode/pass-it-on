@@ -79,7 +79,7 @@ export function ListWizard({ defaultSchool, defaultCourse, defaultSemester }: { 
   }
 
   return (
-    <div className="flex flex-col gap-4.5 px-4.5 py-4.5 md:px-8 md:py-6 md:max-w-lg">
+    <div className="flex flex-col gap-4.5 px-4.5 py-4.5 md:px-8 md:py-6 md:max-w-lg md:mx-auto">
       {step !== "done" && (
         <div className="h-1.5 rounded-full bg-pio-border overflow-hidden">
           <div className="h-full bg-pio-green rounded-full transition-all" style={{ width: `${progressPct}%` }} />
