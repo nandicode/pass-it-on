@@ -39,7 +39,7 @@ export function MyListingsView({ items }: { items: Item[] }) {
   const filtered = items.filter((i) => i.status === tab);
 
   return (
-    <div className="flex flex-col gap-3.5 p-4.5 md:p-8">
+    <div className="flex flex-col gap-3.5 p-4.5 md:p-8 md:max-w-[1200px] md:mx-auto">
       <div className="flex gap-1.5 bg-pio-input rounded-full p-1 w-fit">
         {TABS.map((t) => (
           <button

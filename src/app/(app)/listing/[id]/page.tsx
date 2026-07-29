@@ -35,7 +35,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
   const isOwner = user?.id === dl.ownerId;
 
   return (
-    <div className="flex flex-col md:flex-row md:gap-10 md:px-8 md:py-8">
+    <div className="flex flex-col md:flex-row md:gap-10 md:px-8 md:py-8 md:max-w-[1200px] md:mx-auto">
       <div className="flex-1 flex flex-col gap-4 md:gap-5 px-4.5 py-4 md:px-0 md:py-0 md:max-w-2xl">
         <div className="h-55 md:h-96 rounded-[18px] md:rounded-[22px] overflow-hidden relative shrink-0" style={{ height: 220 }}>
           {dl.photos[0] ? (

@@ -144,9 +144,7 @@ export function AppShell({
         )}
       </header>
 
-      <main className="flex-1 pb-20 md:pb-10">
-        <div className="md:max-w-[1200px] md:mx-auto">{children}</div>
-      </main>
+      <main className="flex-1 pb-20 md:pb-10">{children}</main>
 
       <nav className="md:hidden shrink-0 flex items-center justify-around px-2 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] bg-pio-white border-t border-pio-border fixed bottom-0 left-0 right-0 z-30">
         {TABS.map((t) => (

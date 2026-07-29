@@ -29,7 +29,7 @@ export default async function SavedPage() {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 p-4.5 md:p-8">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 p-4.5 md:p-8 md:max-w-[1200px] md:mx-auto">
       {visible.map((s) => (
         <ListingCard key={s.listingId} item={listingCard(s.listing, savedIds)} loggedIn />
       ))}

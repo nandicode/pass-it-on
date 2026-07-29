@@ -59,7 +59,7 @@ export default async function BrowsePage({
   );
 
   return (
-    <div className="flex flex-col gap-4 md:gap-5 px-4.5 py-4 md:px-8 md:py-6">
+    <div className="flex flex-col gap-4 md:gap-5 px-4.5 py-4 md:px-8 md:py-6 md:max-w-[1200px] md:mx-auto">
       <div className="flex flex-col gap-3">
         <SearchBar initialQuery={sp.q} />
         <CategoryChips active={sp.category} />

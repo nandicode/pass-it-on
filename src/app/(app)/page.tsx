@@ -56,7 +56,7 @@ export default async function HomePage() {
   const recent = availableListings.slice(0, 5);
 
   return (
-    <div className="flex flex-col gap-6 md:gap-10 px-4.5 py-4.5 md:px-8 md:py-8">
+    <div className="flex flex-col gap-6 md:gap-10 px-4.5 py-4.5 md:px-8 md:py-8 md:max-w-[1200px] md:mx-auto">
       <div className="flex flex-col gap-3 md:hidden">
         <SearchBar />
         <CategoryChips />
