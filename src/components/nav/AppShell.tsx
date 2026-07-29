@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { SearchBar } from "@/components/SearchBar";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 import {
   HomeIcon,
   SearchIcon,
@@ -65,10 +66,14 @@ export function AppShell({
   children,
   profileInitial,
   hasUnreadNotif,
+  initialDarkMode,
+  loggedIn,
 }: {
   children: React.ReactNode;
   profileInitial: string;
   hasUnreadNotif: boolean;
+  initialDarkMode: boolean;
+  loggedIn: boolean;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -101,6 +106,9 @@ export function AppShell({
               <SearchBar />
             </div>
             <div className="flex items-center gap-2.5 shrink-0 md:ml-6">
+              <div className="hidden md:block">
+                <DarkModeToggle initialDarkMode={initialDarkMode} loggedIn={loggedIn} />
+              </div>
               <Link
                 href="/notifications"
                 className="pio-tap relative w-9.5 h-9.5 rounded-full bg-pio-input flex items-center justify-center text-pio-ink-soft"

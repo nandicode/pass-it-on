@@ -26,17 +26,19 @@ export default async function NotificationsPage() {
   }
 
   return (
-    <div className="flex flex-col md:max-w-2xl md:mx-auto md:px-4 md:py-2">
-      {items.map((n) => (
-        <NotificationRow
-          key={n.id}
-          id={n.id}
-          type={n.type}
-          text={n.text}
-          time={n.createdAt.toISOString()}
-          read={n.read}
-        />
-      ))}
+    <div className="md:flex md:justify-center md:px-8 md:py-8">
+      <div className="flex flex-col w-full md:max-w-2xl md:bg-pio-white md:border md:border-pio-border md:rounded-[24px] md:overflow-hidden md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+        {items.map((n) => (
+          <NotificationRow
+            key={n.id}
+            id={n.id}
+            type={n.type}
+            text={n.text}
+            time={n.createdAt.toISOString()}
+            read={n.read}
+          />
+        ))}
+      </div>
     </div>
   );
 }

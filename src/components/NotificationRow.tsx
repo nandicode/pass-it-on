@@ -27,7 +27,7 @@ export function NotificationRow({
       onClick={() => {
         if (!read) fetch(`/api/notifications/${id}`, { method: "PATCH" }).then(() => router.refresh());
       }}
-      className="pio-tap flex items-start gap-3 md:gap-4 px-4.5 md:px-3 py-3.5 md:py-4 border-b border-pio-border cursor-pointer md:rounded-2xl"
+      className="pio-tap flex items-start gap-3 md:gap-4 px-4.5 md:px-5 py-3.5 md:py-4 border-b border-pio-border last:border-b-0 cursor-pointer"
       style={{ background: read ? "transparent" : "var(--pio-green-tint)" }}
     >
       <div

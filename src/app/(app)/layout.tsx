@@ -12,7 +12,12 @@ export default async function AppGroupLayout({ children }: { children: React.Rea
   return (
     <div data-theme={user?.darkMode ? "dark" : "light"}>
       <ToastProvider>
-        <AppShell profileInitial={user ? user.name[0].toUpperCase() : "?"} hasUnreadNotif={unread > 0}>
+        <AppShell
+          profileInitial={user ? user.name[0].toUpperCase() : "?"}
+          hasUnreadNotif={unread > 0}
+          initialDarkMode={user?.darkMode ?? false}
+          loggedIn={!!user}
+        >
           {children}
         </AppShell>
       </ToastProvider>

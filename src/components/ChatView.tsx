@@ -42,12 +42,13 @@ export function ChatView({
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-140px)] md:h-[600px]">
-      <div className="flex items-center gap-2.5 px-4.5 py-3 border-b border-pio-border bg-pio-white shrink-0">
+    <div className="md:flex md:justify-center md:px-8 md:py-8">
+    <div className="flex flex-col h-[calc(100vh-140px)] md:h-[78vh] w-full md:max-w-2xl md:bg-pio-white md:border md:border-pio-border md:rounded-[24px] md:overflow-hidden md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+      <div className="flex items-center gap-2.5 md:gap-3 px-4.5 md:px-5 py-3 md:py-4 border-b border-pio-border bg-pio-white shrink-0">
         <Avatar name={person.name} anonymous={person.anonymous} seed={person.seed} size={40} />
         <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-          <span className="text-[14px] font-extrabold text-pio-ink truncate">{person.name}</span>
-          <span className="flex items-center gap-1.5 text-[10.5px] text-pio-muted">
+          <span className="text-[14px] md:text-[15.5px] font-extrabold text-pio-ink truncate">{person.name}</span>
+          <span className="flex items-center gap-1.5 text-[10.5px] md:text-[12px] text-pio-muted">
             {person.meta}
             {person.verified && (
               <span className="inline-flex items-center gap-0.5 text-pio-green font-bold">
@@ -60,7 +61,7 @@ export function ChatView({
       </div>
 
       {refItem && (
-        <div className="px-3.5 pt-3 bg-pio-page shrink-0">
+        <div className="px-3.5 md:px-4 pt-3 bg-pio-page shrink-0">
           <Link
             href={refItem.listingId ? `/listing/${refItem.listingId}` : "/requests"}
             className="pio-tap flex items-center gap-2.5 p-2.5 bg-pio-white border border-pio-border rounded-2xl cursor-pointer"
@@ -82,14 +83,14 @@ export function ChatView({
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto p-3.5 flex flex-col gap-1 bg-pio-page">
+      <div className="flex-1 overflow-y-auto p-3.5 md:p-5 flex flex-col gap-1 bg-pio-page">
         {messages.map((m, i) => {
           const prev = messages[i - 1];
           const grouped = prev && prev.mine === m.mine;
           return (
             <div key={m.id} className={`flex flex-col ${m.mine ? "items-end" : "items-start"}`} style={{ marginBottom: grouped ? 2 : 10 }}>
               <div
-                className={`max-w-[78%] px-3.5 py-2.5 text-[13px] leading-snug break-words ${m.mine ? "pio-bubble-out" : "pio-bubble-in"}`}
+                className={`max-w-[78%] md:max-w-[65%] px-3.5 py-2.5 text-[13px] md:text-[14px] leading-snug break-words ${m.mine ? "pio-bubble-out" : "pio-bubble-in"}`}
                 style={{
                   borderRadius: m.mine
                     ? grouped
@@ -110,7 +111,7 @@ export function ChatView({
         })}
       </div>
 
-      <div className="sticky bottom-0 bg-pio-white border-t border-pio-border px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] flex flex-col gap-2.5 shrink-0">
+      <div className="sticky bottom-0 bg-pio-white border-t border-pio-border px-3 md:px-4 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:pb-3.5 flex flex-col gap-2.5 shrink-0">
         <div className="pio-scroller flex gap-1.5 overflow-x-auto">
           {QUICK_REPLIES.map((q) => (
             <button
@@ -128,17 +129,18 @@ export function ChatView({
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send(draft)}
             placeholder="Message…"
-            className="flex-1 h-10.5 rounded-full border border-pio-border-strong bg-pio-input px-4 text-[13px] outline-none"
+            className="flex-1 h-10.5 md:h-11.5 rounded-full border border-pio-border-strong bg-pio-input px-4 text-[13px] md:text-[14px] outline-none"
           />
           <button
             onClick={() => send(draft)}
             disabled={pending || !draft.trim()}
-            className="pio-tap w-10.5 h-10.5 rounded-full bg-pio-green flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50"
+            className="pio-tap w-10.5 h-10.5 md:w-11.5 md:h-11.5 rounded-full bg-pio-green flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50"
           >
             <SendIcon size={17} className="text-white" />
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
