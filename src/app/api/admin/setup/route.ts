@@ -16,6 +16,16 @@ const IGNORABLE_CODES = new Set([
 ]);
 
 export async function POST(request: Request) {
+  return handle(request);
+}
+
+// GET too: this sandbox can only reach the deployed app through a fetch tool
+// that issues GET requests, not POST.
+export async function GET(request: Request) {
+  return handle(request);
+}
+
+async function handle(request: Request) {
   const { searchParams } = new URL(request.url);
   if (searchParams.get("key") !== SETUP_SECRET) {
     return Response.json({ error: "Forbidden" }, { status: 403 });
