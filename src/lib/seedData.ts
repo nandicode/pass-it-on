@@ -24,6 +24,40 @@ const PEOPLE = [
   { key: "tara", email: "tara.iyer@s.amity.edu", name: "Tara Iyer", school: "ASET", course: "B.Tech CSE", semester: "Sem 1", displayMode: "FIRST_NAME" as const },
 ];
 
+// One representative real photo per category (not per listing) -- pulled from
+// Wikipedia's own lead image for each topic at seed time, since this runs on
+// Vercel (real internet access) rather than the sandbox that authored it.
+// Falls back to the drawn CategoryIllustration if the fetch fails.
+const CATEGORY_WIKI_TITLES: Record<string, string> = {
+  notes: "Note-taking",
+  books: "Book",
+  lab: "Laboratory_glassware",
+  tools: "Calculator",
+  stationery: "Stationery",
+};
+
+async function resolveCategoryImages(log: (msg: string) => void): Promise<Record<string, string>> {
+  const result: Record<string, string> = {};
+  await Promise.all(
+    Object.entries(CATEGORY_WIKI_TITLES).map(async ([key, title]) => {
+      try {
+        const res = await fetch(
+          `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&format=json&pithumbsize=900&origin=*`,
+          { signal: AbortSignal.timeout(8000) }
+        );
+        const data = await res.json();
+        const pages = data?.query?.pages as Record<string, { thumbnail?: { source?: string } }> | undefined;
+        const page = pages ? Object.values(pages)[0] : undefined;
+        const url = page?.thumbnail?.source;
+        if (url) result[key] = url;
+      } catch (e) {
+        log(`Could not fetch a photo for "${key}" (${title}): ${e}`);
+      }
+    })
+  );
+  return result;
+}
+
 export async function runSeed(prisma: PrismaClient, log: (msg: string) => void = console.log) {
   log("Seeding categories...");
   const catByKey: Record<string, string> = {};
@@ -61,6 +95,10 @@ export async function runSeed(prisma: PrismaClient, log: (msg: string) => void =
       { userId: userByKey.nandini, name: "Operating Systems", code: "CS-303" },
     ],
   });
+
+  log("Fetching one real photo per category from Wikipedia...");
+  const categoryImages = await resolveCategoryImages(log);
+  log(`Got photos for: ${Object.keys(categoryImages).join(", ") || "none"}`);
 
   log("Seeding listings...");
   await prisma.listing.deleteMany({});
@@ -100,6 +138,7 @@ export async function runSeed(prisma: PrismaClient, log: (msg: string) => void =
         pickupSpot: l.pickupSpot,
         availability: l.availability,
         status: l.status,
+        photos: categoryImages[l.cat] ? { create: [{ url: categoryImages[l.cat], position: 0 }] } : undefined,
       },
     });
     listingIds[l.title] = created.id;
