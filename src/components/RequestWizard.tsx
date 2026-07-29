@@ -46,8 +46,7 @@ export function RequestWizard({ defaultSchool, defaultCourse, defaultSemester }:
 
   if (done) {
     return (
-      <div className="md:px-8 md:py-10">
-      <div className="flex flex-col items-center gap-3.5 px-4.5 py-8 md:p-14 w-full md:bg-pio-white md:border md:border-pio-border md:rounded-[28px] md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+      <div className="flex flex-col items-center gap-3.5 px-4.5 py-8 md:py-14 w-full">
         <div className="w-13 h-13 rounded-full bg-pio-green-tint flex items-center justify-center text-pio-green" style={{ width: 52, height: 52 }}>
           <CheckIcon size={24} />
         </div>
@@ -56,13 +55,11 @@ export function RequestWizard({ defaultSchool, defaultCourse, defaultSemester }:
           Go to Requests
         </Button>
       </div>
-      </div>
     );
   }
 
   return (
-    <div className="md:px-8 md:py-10">
-    <div className="flex flex-col gap-3.5 px-4.5 py-4.5 md:p-14 w-full md:bg-pio-white md:border md:border-pio-border md:rounded-[28px] md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+    <div className="flex flex-col gap-3.5 px-4.5 py-4.5 md:px-10 md:py-10 w-full">
       <div className="flex flex-col gap-3.5 w-full md:max-w-md md:mx-auto">
       <h2 className="m-0 text-[18px] font-extrabold text-pio-ink">Request material</h2>
       {error && <ErrorBanner>{error}</ErrorBanner>}
@@ -112,7 +109,6 @@ export function RequestWizard({ defaultSchool, defaultCourse, defaultSemester }:
           <SheetOption key={s} label={s} active={form.semester === s} onClick={() => { setForm((f) => ({ ...f, semester: s })); setDropdown(null); }} />
         ))}
       </Sheet>
-    </div>
     </div>
   );
 }

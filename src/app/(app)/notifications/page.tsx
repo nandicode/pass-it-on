@@ -26,8 +26,8 @@ export default async function NotificationsPage() {
   }
 
   return (
-    <div className="md:flex md:justify-center md:px-8 md:py-8">
-      <div className="flex flex-col w-full md:max-w-2xl md:bg-pio-white md:border md:border-pio-border md:rounded-[24px] md:overflow-hidden md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+    <div className="md:px-8 md:py-6 md:max-w-[1200px] md:mx-auto">
+      <div className="flex flex-col w-full">
         {items.map((n) => (
           <NotificationRow
             key={n.id}
