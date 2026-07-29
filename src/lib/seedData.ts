@@ -43,13 +43,29 @@ async function resolveCategoryImages(log: (msg: string) => void): Promise<Record
       try {
         const res = await fetch(
           `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&format=json&pithumbsize=900&origin=*`,
-          { signal: AbortSignal.timeout(8000) }
+          {
+            signal: AbortSignal.timeout(8000),
+            headers: {
+              // Wikimedia's API rejects requests without a descriptive User-Agent.
+              "User-Agent": "PassItOnApp/1.0 (https://pass-it-on-lilac.vercel.app; contact@passiton.app) node-fetch",
+              Accept: "application/json",
+            },
+          }
         );
+        if (!res.ok) {
+          log(`Fetch for "${key}" (${title}) returned ${res.status} ${res.statusText}`);
+          return;
+        }
         const data = await res.json();
         const pages = data?.query?.pages as Record<string, { thumbnail?: { source?: string } }> | undefined;
         const page = pages ? Object.values(pages)[0] : undefined;
         const url = page?.thumbnail?.source;
-        if (url) result[key] = url;
+        if (url) {
+          result[key] = url;
+          log(`Photo for "${key}": ${url}`);
+        } else {
+          log(`No thumbnail found for "${key}" (${title}). Raw: ${JSON.stringify(data).slice(0, 300)}`);
+        }
       } catch (e) {
         log(`Could not fetch a photo for "${key}" (${title}): ${e}`);
       }
