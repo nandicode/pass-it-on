@@ -6,13 +6,13 @@ import { runSeed } from "@/lib/seedData";
 // sandbox has no way to set Vercel env vars. DELETE THIS ROUTE after running it.
 const SETUP_SECRET = "61709a53b1fa11d266a2b5444aa1d86d3e7cebd4b17b8269";
 
-const IGNORABLE_CODES = new Set([
-  "42P07", // duplicate_table
-  "42710", // duplicate_object (type/constraint)
-  "42P06", // duplicate_schema
-  "42701", // duplicate_column
-  "42P16", // invalid_table_definition (duplicate PK etc.)
-]);
+// Prisma wraps raw-query failures in PrismaClientKnownRequestError with its
+// own `.code` (e.g. "P2010"); the real Postgres SQLSTATE only shows up in the
+// message text, so match on that instead of relying on `.code`.
+function isAlreadyExistsError(err: unknown) {
+  const message = err instanceof Error ? err.message : String(err);
+  return /already exists/i.test(message);
+}
 
 export async function POST(request: Request) {
   return handle(request);
@@ -38,8 +38,7 @@ async function handle(request: Request) {
     try {
       await prisma.$executeRawUnsafe(stmt + ";");
     } catch (err) {
-      const code = (err as { code?: string })?.code;
-      if (code && IGNORABLE_CODES.has(code)) {
+      if (isAlreadyExistsError(err)) {
         log(`skip (already exists): ${stmt.slice(0, 60)}...`);
         continue;
       }
