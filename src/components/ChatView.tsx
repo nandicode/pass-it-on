@@ -42,8 +42,8 @@ export function ChatView({
   }
 
   return (
-    <div className="md:flex md:justify-center md:px-8 md:py-8">
-    <div className="flex flex-col h-[calc(100vh-140px)] md:h-[72vh] w-full md:max-w-5xl md:bg-pio-white md:border md:border-pio-border md:rounded-[24px] md:overflow-hidden md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+    <div className="md:px-8 md:py-8">
+    <div className="flex flex-col h-[calc(100vh-140px)] md:h-[78vh] w-full md:bg-pio-white md:border md:border-pio-border md:rounded-[24px] md:overflow-hidden md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
       <div className="flex items-center gap-2.5 md:gap-3 px-4.5 md:px-5 py-3 md:py-4 border-b border-pio-border bg-pio-white shrink-0">
         <Avatar name={person.name} anonymous={person.anonymous} seed={person.seed} size={40} />
         <div className="flex flex-col gap-0.5 flex-1 min-w-0">

@@ -80,8 +80,8 @@ export function ListWizard({ defaultSchool, defaultCourse, defaultSemester }: { 
   }
 
   return (
-    <div className="md:flex md:justify-center md:px-8 md:py-10">
-    <div className="flex flex-col gap-4.5 px-4.5 py-4.5 md:p-12 w-full md:max-w-3xl md:bg-pio-white md:border md:border-pio-border md:rounded-[28px] md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+    <div className="md:px-8 md:py-10">
+    <div className="flex flex-col gap-4.5 px-4.5 py-4.5 md:p-14 w-full md:bg-pio-white md:border md:border-pio-border md:rounded-[28px] md:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
       {step !== "done" && (
         <div className="h-1.5 rounded-full bg-pio-border overflow-hidden md:max-w-md md:mx-auto md:w-full">
           <div className="h-full bg-pio-green rounded-full transition-all" style={{ width: `${progressPct}%` }} />
