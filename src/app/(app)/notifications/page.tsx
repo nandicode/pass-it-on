@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { NotificationRow } from "@/components/NotificationRow";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { BellIcon } from "@/lib/icons";
 
 export default async function NotificationsPage() {
   const user = await getCurrentUser();
@@ -14,11 +16,17 @@ export default async function NotificationsPage() {
   });
 
   if (items.length === 0) {
-    return <div className="py-16 text-center text-pio-faint text-[13px]">Nothing here yet.</div>;
+    return (
+      <EmptyState
+        icon={<BellIcon size={22} />}
+        title="Nothing here yet"
+        subtitle="You'll see updates here when someone messages you, responds to a request, or a listing status changes."
+      />
+    );
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col md:max-w-2xl md:mx-auto md:px-4 md:py-2">
       {items.map((n) => (
         <NotificationRow
           key={n.id}

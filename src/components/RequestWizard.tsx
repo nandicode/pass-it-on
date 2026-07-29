@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { Sheet, SheetOption } from "@/components/ui/Sheet";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { CheckIcon, ChevronDownIcon } from "@/lib/icons";
 import { CATEGORIES, SCHOOLS, COURSES, SEMESTERS } from "@/lib/constants";
 
@@ -60,7 +61,7 @@ export function RequestWizard({ defaultSchool, defaultCourse, defaultSemester }:
   return (
     <div className="flex flex-col gap-3.5 px-4.5 py-4.5 md:px-8 md:py-6 md:max-w-lg md:mx-auto">
       <h2 className="m-0 text-[18px] font-extrabold text-pio-ink">Request material</h2>
-      {error && <span className="text-[12px] text-pio-orange">{error}</span>}
+      {error && <ErrorBanner>{error}</ErrorBanner>}
       <div className="flex flex-wrap gap-2">
         {CATEGORIES.map((c) => (
           <Chip key={c.key} active={form.categoryKey === c.key} onClick={() => setForm((f) => ({ ...f, categoryKey: c.key }))}>

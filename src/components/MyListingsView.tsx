@@ -3,8 +3,10 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { CategoryIllustration } from "@/components/ui/PhotoPlaceholder";
 import { Badge } from "@/components/ui/Badge";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { ListingsIcon } from "@/lib/icons";
 import { STATUS_META } from "@/lib/constants";
 
 type Item = {
@@ -14,6 +16,7 @@ type Item = {
   interested: number;
   status: "AVAILABLE" | "RESERVED" | "PASSED";
   photoUrl: string | null;
+  categoryKey: string;
 };
 
 const TABS = [
@@ -57,11 +60,11 @@ export function MyListingsView({ items }: { items: Item[] }) {
         {filtered.map((item) => (
           <div key={item.id} className="bg-pio-white border border-pio-border rounded-2xl p-3.5 flex flex-col gap-2.5">
             <div className="flex items-center gap-3">
-              <Link href={`/listing/${item.id}`} className="w-13 h-13 rounded-xl overflow-hidden shrink-0 bg-pio-photo-bg" style={{ width: 52, height: 52 }}>
+              <Link href={`/listing/${item.id}`} className="w-13 h-13 rounded-xl overflow-hidden shrink-0" style={{ width: 52, height: 52 }}>
                 {item.photoUrl ? (
                   <img src={item.photoUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <PhotoPlaceholder className="w-full h-full" iconSize={18} />
+                  <CategoryIllustration categoryKey={item.categoryKey} className="w-full h-full" iconSize={18} />
                 )}
               </Link>
               <div className="flex flex-col gap-1 flex-1 min-w-0">
@@ -98,7 +101,17 @@ export function MyListingsView({ items }: { items: Item[] }) {
           </div>
         ))}
         {filtered.length === 0 && (
-          <div className="col-span-full py-12 text-center text-pio-faint text-[13px]">Nothing here yet.</div>
+          <div className="col-span-full">
+            <EmptyState
+              icon={<ListingsIcon size={26} />}
+              title={tab === "AVAILABLE" ? "Nothing listed yet" : tab === "RESERVED" ? "Nothing reserved right now" : "Nothing passed on yet"}
+              subtitle={
+                tab === "AVAILABLE"
+                  ? "List your notes, books, or lab material for other students to find."
+                  : "Items move here automatically as their status changes."
+              }
+            />
+          </div>
         )}
       </div>
     </div>

@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { CategoryIllustration } from "@/components/ui/PhotoPlaceholder";
 import { SendIcon, VerifiedIcon } from "@/lib/icons";
 
 type Message = { id: string; mine: boolean; text: string; time: string };
@@ -19,7 +19,7 @@ export function ChatView({
 }: {
   threadId: string;
   person: { name: string; anonymous: boolean; seed: string; meta: string; verified: boolean };
-  refItem: { kindLabel: string; title: string; sub: string; photoUrl: string | null; listingId: string | null; requestId: string | null } | null;
+  refItem: { kindLabel: string; title: string; sub: string; photoUrl: string | null; categoryKey: string; listingId: string | null; requestId: string | null } | null;
   initialMessages: Message[];
 }) {
   const [messages, setMessages] = useState(initialMessages);
@@ -65,11 +65,11 @@ export function ChatView({
             href={refItem.listingId ? `/listing/${refItem.listingId}` : "/requests"}
             className="pio-tap flex items-center gap-2.5 p-2.5 bg-pio-white border border-pio-border rounded-2xl cursor-pointer"
           >
-            <div className="w-10.5 h-10.5 rounded-xl overflow-hidden shrink-0 bg-pio-photo-bg">
+            <div className="w-10.5 h-10.5 rounded-xl overflow-hidden shrink-0">
               {refItem.photoUrl ? (
                 <img src={refItem.photoUrl} alt="" className="w-full h-full object-cover" />
               ) : (
-                <PhotoPlaceholder className="w-full h-full" iconSize={16} />
+                <CategoryIllustration categoryKey={refItem.categoryKey} className="w-full h-full" iconSize={16} />
               )}
             </div>
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">

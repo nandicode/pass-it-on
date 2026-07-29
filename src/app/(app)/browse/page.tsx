@@ -7,6 +7,7 @@ import { ListingCard } from "@/components/cards/ListingCard";
 import { FilterSheet } from "@/components/FilterSheet";
 import { SearchIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
 import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 
@@ -58,36 +59,36 @@ export default async function BrowsePage({
   );
 
   return (
-    <div className="flex flex-col gap-4 px-4.5 py-4 md:px-8 md:py-6">
+    <div className="flex flex-col gap-4 md:gap-5 px-4.5 py-4 md:px-8 md:py-6">
       <div className="flex flex-col gap-3">
         <SearchBar initialQuery={sp.q} />
         <CategoryChips active={sp.category} />
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-[12.5px] text-pio-muted">
+        <span className="text-[12.5px] md:text-[14.5px] text-pio-muted">
           {listings.length} {listings.length === 1 ? "result" : "results"}
         </span>
         <FilterSheet hasActiveFilters={hasActiveFilters} />
       </div>
 
       {listings.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {listings.map((l) => (
             <ListingCard key={l.id} item={listingCard(l, savedIds)} loggedIn={!!user} />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-2.5 py-16 px-4 text-center">
-          <div className="w-12.5 h-12.5 rounded-full bg-pio-green-tint flex items-center justify-center text-pio-green">
-            <SearchIcon size={22} />
-          </div>
-          <span className="text-[15.5px] font-extrabold text-pio-ink">No one has listed this yet.</span>
-          <span className="text-[12.5px] text-pio-muted max-w-65">Request it from students who may have it.</span>
-          <Link href="/request" className="mt-1.5">
-            <Button>Request material</Button>
-          </Link>
-        </div>
+        <EmptyState
+          icon={<SearchIcon size={22} />}
+          title="No one has listed this yet."
+          subtitle="Be the first to know — post a request and students who have it can respond."
+          action={
+            <Link href="/request">
+              <Button>Request material</Button>
+            </Link>
+          }
+        />
       )}
     </div>
   );

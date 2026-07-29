@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Logo } from "@/components/nav/AppShell";
 import { Button } from "@/components/ui/Button";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
+import { ALLOWED_EMAIL_DOMAIN } from "@/lib/constants";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,8 +17,20 @@ export default function LoginPage() {
   const router = useRouter();
 
   async function doLogin() {
-    setPending(true);
     setError("");
+    if (!email.trim()) {
+      setError("Enter your college email to continue.");
+      return;
+    }
+    if (!email.endsWith(`@${ALLOWED_EMAIL_DOMAIN}`)) {
+      setError(`Only @${ALLOWED_EMAIL_DOMAIN} college emails are accepted.`);
+      return;
+    }
+    if (!password) {
+      setError("Enter your password to continue.");
+      return;
+    }
+    setPending(true);
     const res = await signIn("credentials", { email, password, redirect: false });
     setPending(false);
     if (res?.error) setError("Incorrect email or password.");
@@ -28,7 +42,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm bg-pio-surface rounded-3xl p-6 flex flex-col gap-4">
         <Logo />
         <h2 className="m-0 text-[19px] font-extrabold text-pio-ink">Log in</h2>
-        {error && <span className="text-[12.5px] text-pio-orange">{error}</span>}
+        {error && <ErrorBanner>{error}</ErrorBanner>}
         <Field label="College email">
           <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="yourname@s.amity.edu" className="h-11.5 rounded-xl border border-pio-border-strong px-3.5 text-[14px] outline-none" />
         </Field>

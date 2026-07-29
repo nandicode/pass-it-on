@@ -24,10 +24,6 @@ const PEOPLE = [
   { key: "tara", email: "tara.iyer@s.amity.edu", name: "Tara Iyer", school: "ASET", course: "B.Tech CSE", semester: "Sem 1", displayMode: "FIRST_NAME" as const },
 ];
 
-function img(seed: string, n = 1) {
-  return Array.from({ length: n }, (_, i) => `https://picsum.photos/seed/pio-${seed}-${i}/640/480`);
-}
-
 export async function runSeed(prisma: PrismaClient, log: (msg: string) => void = console.log) {
   log("Seeding categories...");
   const catByKey: Record<string, string> = {};
@@ -104,7 +100,6 @@ export async function runSeed(prisma: PrismaClient, log: (msg: string) => void =
         pickupSpot: l.pickupSpot,
         availability: l.availability,
         status: l.status,
-        photos: { create: img(l.title, l.photos).map((url, i) => ({ url, position: i })) },
       },
     });
     listingIds[l.title] = created.id;

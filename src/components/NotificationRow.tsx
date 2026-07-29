@@ -27,18 +27,18 @@ export function NotificationRow({
       onClick={() => {
         if (!read) fetch(`/api/notifications/${id}`, { method: "PATCH" }).then(() => router.refresh());
       }}
-      className="pio-tap flex items-start gap-3 px-4.5 py-3.5 border-b border-pio-border cursor-pointer"
+      className="pio-tap flex items-start gap-3 md:gap-4 px-4.5 md:px-3 py-3.5 md:py-4 border-b border-pio-border cursor-pointer md:rounded-2xl"
       style={{ background: read ? "transparent" : "var(--pio-green-tint)" }}
     >
       <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-white shrink-0"
+        className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center text-white shrink-0"
         style={{ background: COLORS[type] ?? "#6B6659" }}
       >
         <Icon size={16} />
       </div>
-      <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-        <span className="text-[12.5px] font-bold text-pio-ink leading-snug">{text}</span>
-        <span className="text-[10.5px] text-pio-faint">{new Date(time).toLocaleString()}</span>
+      <div className="flex flex-col gap-0.5 md:gap-1 flex-1 min-w-0">
+        <span className="text-[12.5px] md:text-[14.5px] font-bold text-pio-ink leading-snug">{text}</span>
+        <span className="text-[10.5px] md:text-[12px] text-pio-faint">{new Date(time).toLocaleString()}</span>
       </div>
       {!read && <span className="w-1.5 h-1.5 rounded-full bg-pio-green shrink-0 mt-1" />}
     </div>

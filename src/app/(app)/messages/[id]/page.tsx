@@ -13,8 +13,8 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
     include: {
       userA: true,
       userB: true,
-      listing: { include: { photos: true } },
-      request: true,
+      listing: { include: { photos: true, category: true } },
+      request: { include: { category: true } },
       messages: { orderBy: { createdAt: "asc" } },
     },
   });
@@ -44,6 +44,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
                   : `₹${thread.listing.price}`
                 : `Need by ${thread.request?.needBy}`,
               photoUrl: thread.listing?.photos[0]?.url ?? null,
+              categoryKey: (thread.listing ?? thread.request)!.category.key,
               listingId: thread.listingId,
               requestId: thread.requestId,
             }

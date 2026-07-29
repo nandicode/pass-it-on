@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { Sheet, SheetOption } from "@/components/ui/Sheet";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { CategoryIllustration } from "@/components/ui/PhotoPlaceholder";
 import { CheckIcon, ImageIcon, ChevronDownIcon } from "@/lib/icons";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { CATEGORIES, SCHOOLS, COURSES, SEMESTERS, CONDITIONS, CONDITION_LABELS, USEFUL_FOR } from "@/lib/constants";
 
 type Step = 1 | 2 | 3 | 4 | "preview" | "done";
@@ -136,7 +137,7 @@ export function ListWizard({ defaultSchool, defaultCourse, defaultSemester }: { 
       {step === 3 && (
         <div className="flex flex-col gap-3.5">
           <h2 className="m-0 text-[18px] font-extrabold text-pio-ink">Photos and condition</h2>
-          {error && <span className="text-[12px] text-pio-orange">{error}</span>}
+          {error && <ErrorBanner>{error}</ErrorBanner>}
           <div className="flex gap-2.5 flex-wrap">
             {form.photos.map((url) => (
               <div key={url} className="w-18 h-18 rounded-2xl overflow-hidden" style={{ width: 72, height: 72 }}>
@@ -228,10 +229,14 @@ export function ListWizard({ defaultSchool, defaultCourse, defaultSemester }: { 
       {step === "preview" && (
         <div className="flex flex-col gap-3.5">
           <h2 className="m-0 text-[18px] font-extrabold text-pio-ink">Preview listing</h2>
-          {error && <span className="text-[12px] text-pio-orange">{error}</span>}
+          {error && <ErrorBanner>{error}</ErrorBanner>}
           <div className="border border-pio-border rounded-2xl overflow-hidden">
-            <div className="h-32.5 bg-pio-photo-bg relative" style={{ height: 130 }}>
-              {form.photos[0] ? <img src={form.photos[0]} alt="" className="w-full h-full object-cover" /> : <PhotoPlaceholder className="w-full h-full" />}
+            <div className="h-32.5 relative" style={{ height: 130 }}>
+              {form.photos[0] ? (
+                <img src={form.photos[0]} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <CategoryIllustration categoryKey={form.categoryKey} className="w-full h-full" iconSize={30} />
+              )}
             </div>
             <div className="p-3.5 flex flex-col gap-1.5">
               <span className="w-fit text-[10.5px] font-bold text-pio-green bg-pio-green-tint px-2.5 py-1 rounded-full">

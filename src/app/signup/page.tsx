@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { Logo } from "@/components/nav/AppShell";
 import { Button } from "@/components/ui/Button";
 import { Sheet, SheetOption } from "@/components/ui/Sheet";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { CloseIcon, ChevronDownIcon } from "@/lib/icons";
 import { SCHOOLS, COURSES, SEMESTERS, ALLOWED_EMAIL_DOMAIN } from "@/lib/constants";
 
@@ -32,8 +33,22 @@ export default function SignupPage() {
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
 
-  const stage1Disabled =
-    !signup.email.endsWith(`@${ALLOWED_EMAIL_DOMAIN}`) || !signup.name.trim() || signup.password.length < 6;
+  function tryContinueStage1() {
+    setError("");
+    if (!signup.email.trim() || !signup.email.endsWith(`@${ALLOWED_EMAIL_DOMAIN}`)) {
+      setError(`Only @${ALLOWED_EMAIL_DOMAIN} college emails are accepted.`);
+      return;
+    }
+    if (!signup.name.trim()) {
+      setError("Enter your full name to continue.");
+      return;
+    }
+    if (signup.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+    setStage(2);
+  }
 
   async function finish() {
     setPending(true);
@@ -59,7 +74,7 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-pio-page px-4 py-8">
       <div className="w-full max-w-sm bg-pio-surface rounded-3xl p-6 flex flex-col gap-4">
         <Logo />
-        {error && <span className="text-[12.5px] text-pio-orange">{error}</span>}
+        {error && <ErrorBanner>{error}</ErrorBanner>}
 
         {stage === 1 && (
           <>
@@ -74,9 +89,7 @@ export default function SignupPage() {
             <Field label="Password">
               <input type="password" value={signup.password} onChange={(e) => setSignup((s) => ({ ...s, password: e.target.value }))} placeholder="Create a password" className="h-11.5 rounded-xl border border-pio-border-strong px-3.5 text-[14px] outline-none" />
             </Field>
-            <Button disabled={stage1Disabled} onClick={() => setStage(2)}>
-              Continue
-            </Button>
+            <Button onClick={tryContinueStage1}>Continue</Button>
             <span className="text-[12.5px] text-pio-muted text-center">
               Already have an account?{" "}
               <Link href="/login" className="text-pio-green font-bold no-underline">

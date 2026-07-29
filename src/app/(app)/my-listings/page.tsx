@@ -9,7 +9,7 @@ export default async function MyListingsPage() {
 
   const listings = await prisma.listing.findMany({
     where: { ownerId: user.id },
-    include: { photos: true },
+    include: { photos: true, category: true },
     orderBy: { createdAt: "desc" },
   });
 
@@ -20,6 +20,7 @@ export default async function MyListingsPage() {
     interested: l.interested,
     status: l.status,
     photoUrl: l.photos[0]?.url ?? null,
+    categoryKey: l.category.key,
   }));
 
   return <MyListingsView items={items} />;
