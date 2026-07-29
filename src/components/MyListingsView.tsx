@@ -45,7 +45,7 @@ export function MyListingsView({ items }: { items: Item[] }) {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className="pio-tap px-3.5 py-2 rounded-full text-[12px] font-bold cursor-pointer"
+            className="pio-tap px-3.5 md:px-5 py-2 md:py-2.5 rounded-full text-[12px] md:text-[13.5px] font-bold cursor-pointer"
             style={{
               background: tab === t.key ? "var(--pio-white)" : "transparent",
               color: tab === t.key ? "var(--pio-green)" : "var(--pio-muted)",
@@ -56,11 +56,11 @@ export function MyListingsView({ items }: { items: Item[] }) {
         ))}
       </div>
 
-      <div className="flex flex-col gap-2.5 md:grid md:grid-cols-2 md:gap-3">
+      <div className="flex flex-col gap-2.5 md:grid md:grid-cols-3 md:gap-4">
         {filtered.map((item) => (
-          <div key={item.id} className="bg-pio-white border border-pio-border rounded-2xl p-3.5 flex flex-col gap-2.5">
-            <div className="flex items-center gap-3">
-              <Link href={`/listing/${item.id}`} className="w-13 h-13 rounded-xl overflow-hidden shrink-0" style={{ width: 52, height: 52 }}>
+          <div key={item.id} className="bg-pio-white border border-pio-border rounded-2xl p-3.5 md:p-4.5 flex flex-col gap-2.5 md:gap-3">
+            <div className="flex items-center gap-3 md:gap-3.5">
+              <Link href={`/listing/${item.id}`} className="w-13 h-13 md:w-16 md:h-16 rounded-xl overflow-hidden shrink-0" style={{ width: 52, height: 52 }}>
                 {item.photoUrl ? (
                   <img src={item.photoUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
@@ -69,10 +69,10 @@ export function MyListingsView({ items }: { items: Item[] }) {
               </Link>
               <div className="flex flex-col gap-1 flex-1 min-w-0">
                 <Badge label={STATUS_META[item.status].label} color={STATUS_META[item.status].color} tint={STATUS_META[item.status].tint} />
-                <Link href={`/listing/${item.id}`} className="text-[13px] font-bold text-pio-ink truncate">
+                <Link href={`/listing/${item.id}`} className="text-[13px] md:text-[15px] font-bold text-pio-ink truncate">
                   {item.title}
                 </Link>
-                <span className="text-[11px] text-pio-muted">
+                <span className="text-[11px] md:text-[12.5px] text-pio-muted">
                   {item.priceLabel} · {item.interested} interested
                 </span>
               </div>
@@ -92,7 +92,7 @@ export function MyListingsView({ items }: { items: Item[] }) {
                       router.refresh();
                     })
                   }
-                  className="pio-tap flex-1 border-[1.5px] border-pio-green text-pio-green bg-transparent px-2.5 py-2 rounded-full text-[11.5px] font-bold whitespace-nowrap cursor-pointer disabled:opacity-50"
+                  className="pio-tap flex-1 border-[1.5px] border-pio-green text-pio-green bg-transparent px-2.5 py-2 md:py-2.5 rounded-full text-[11.5px] md:text-[12.5px] font-bold whitespace-nowrap cursor-pointer disabled:opacity-50"
                 >
                   {a.label}
                 </button>

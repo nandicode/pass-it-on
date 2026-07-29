@@ -123,7 +123,7 @@ export default async function HomePage() {
       >
         <div className="pio-scroller flex gap-3 md:gap-4 overflow-x-auto -mx-4.5 px-4.5 md:mx-0 md:px-0 md:grid md:grid-cols-4">
           {recommended.slice(0, 8).map((l) => (
-            <div key={l.id} className="w-37.5 shrink-0 md:w-auto" style={{ width: 150 }}>
+            <div key={l.id} className="w-37.5 shrink-0 md:w-auto">
               <ListingCard item={listingCard(l, savedIds)} loggedIn={!!user} />
             </div>
           ))}
